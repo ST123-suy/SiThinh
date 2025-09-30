@@ -2,9 +2,570 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ST MOBILE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        /* Hiệu ứng bóng nước cho nav-link */
+        .navbar-nav .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navbar-nav .nav-link::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(13, 110, 253, 0.18) 40%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.7;
+            pointer-events: none;
+            transition: transform 0.4s cubic-bezier(.4, 2, .3, 1), opacity 0.4s;
+        }
+
+        .navbar-nav .nav-link:hover::before,
+        .navbar-nav .nav-link.active:hover::before {
+            transform: translate(-50%, -50%) scale(1.1);
+            opacity: 1;
+        }
+
+        /* Hiệu ứng sống động cho nav-link */
+        .navbar-nav .nav-link {
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 8px;
+            transform: translateX(-50%) scaleX(0);
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, #0d6efd, #00c6ff);
+            border-radius: 2px;
+            transition: transform 0.3s cubic-bezier(.4, 2, .3, 1), opacity 0.3s;
+            opacity: 0.7;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active:hover {
+            background: #222 !important;
+            color: #0d6efd !important;
+            box-shadow: 0 6px 18px 0 rgba(13, 110, 253, 0.18);
+        }
+
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-link.active:hover::after {
+            transform: translateX(-50%) scaleX(1);
+            opacity: 1;
+        }
+
+        .navbar {
+            transition: background 0.4s;
+        }
+
+        .navbar:hover {
+            background: #222 !important;
+        }
+
+        .product-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff4d4f;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .installment-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #0d6efd;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .price {
+            color: #d70018;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 0.9rem;
+            margin-left: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #ffecec;
+            color: #d70018;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 6px;
+        }
+
+        .custom-shadow {
+            text-shadow: 2px 4px 10px rgba(255, 255, 255, 0.875);
+        }
+    </style>
 </head>
+
 <body>
-   <p>helo</p> 
+    <!-- Menu -->
+    <nav class="navbar navbar-expand-lg bg-dark text-white bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white fw-bold custom-shadow" href="#">ST-Mobile</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon "></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav justify-content-center w-100 text-center">
+                    <li class="nav-item">
+                        <a class="nav-link  text-white" aria-current="page" href="#">Trang Chủ</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white mx-3" href="#" id="danhmucDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Danh Mục Sản Phẩm
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="danhmucDropdown">
+                            <li><a class="dropdown-item" href="#dienthoai"><i class="bi bi-phone"></i>Điện Thoại</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#tainghe"><i class="bi bi-earbuds"></i>Tai Nghe</a></li>
+                            <li><a class="dropdown-item" href="#phukien">Phụ Kiện</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white mx-3" href="#tainghe">Yêu Thích</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white-50 mx-3" href="#" data-bs-toggle="modal"
+                            data-bs-target="#contactModal">Liên hệ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Banner giới thiệu -->
+    <div id="bannerProduct" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="images/ST-MOBILE.png" class="d-block w-100 img-fluid"
+                    style="object-fit:cover;max-height:400px;width:100%;">
+            </div>
+            <div class="carousel-item">
+                <img src="images/Banner-Homepage-Website-Xiaomi-14T.jpg" class="d-block w-100 img-fluid"
+                    style="object-fit:cover;max-height:400px;width:100%;">
+            </div>
+            <div class="carousel-item">
+                <img src="images/home-banner-ip14.jpg" class="d-block w-100 img-fluid"
+                    style="object-fit:cover;max-height:400px;width:100%;">
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#bannerProduct" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#bannerProduct" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    </div>
+    <!-- Sản Phẩm -->
+    <section>
+        <!-- Điện Thoại -->
+        <div class="container py-4 " id="dienthoai">
+            <h3>Danh Sách Sản Phẩm</h3>
+
+            <h3 class="mb-4">📱 Điện thoại</h3>
+            <div class="row g-3">
+
+                <!-- Sản phẩm 1 -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-card p-3">
+                        <span class="installment-badge">Trả góp 0%</span>
+                        <img src="images/iphone17.png" class="img-fluid mb-3" alt="iPhone 17 Pro Max">
+                        <span class="tag">Hàng đặt trước</span>
+                        <h6>iPhone 17 Pro Max 256GB | Chính hãng</h6>
+                        <div class="price">37.990.000đ</div>
+                        <small class="text-muted">Smember giảm đến 380.000đ</small>
+                        <div class="mt-2 text-primary">♡ Yêu thích</div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm 2 -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-card p-3">
+                        <span class="installment-badge">Trả góp 0%</span>
+                        <span class="product-badge">Giảm 14%</span>
+                        <img src="https://cdn.tgdd.vn/Products/Images/42/329149/iphone-16-pro-max-thumb-600x600.jpg"
+                            class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                        <h6>iPhone 16 Pro Max 256GB | Chính hãng VN/A</h6>
+                        <div>
+                            <span class="price">30.090.000đ</span>
+                            <span class="old-price">34.990.000đ</span>
+                        </div>
+                        <small class="text-muted">Smember giảm đến 301.000đ</small>
+                        <div class="mt-2 text-primary">♡ Yêu thích</div>
+                    </div>
+                </div>
+                <!-- Sản phẩm 3  -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-card p-3">
+                        <span class="installment-badge">Trả góp 0%</span>
+                        <span class="product-badge">Giảm 14%</span>
+                        <img src="images/iphone-15-pro.png" class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                        <h6>iPhone 15 Pro Max 256GB | Chính hãng VN/A</h6>
+                        <div>
+                            <span class="price">30.090.000đ</span>
+                            <span class="old-price">34.990.000đ</span>
+                        </div>
+                        <small class="text-muted">Smember giảm đến 301.000đ</small>
+                        <div class="mt-2 text-primary">♡ Yêu thích</div>
+                    </div>
+                </div>
+                <!-- Sản phẩm 4 -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-card p-3">
+                        <span class="installment-badge">Trả góp 0%</span>
+                        <span class="product-badge">Giảm 14%</span>
+                        <img src="images/iphone-15-pro.png" class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                        <h6>iPhone 15 Pro 256GB | Chính hãng VN/A</h6>
+                        <div>
+                            <span class="price">30.090.000đ</span>
+                            <span class="old-price">34.990.000đ</span>
+                        </div>
+                        <small class="text-muted">Smember giảm đến 301.000đ</small>
+                        <div class="mt-2 text-primary">♡ Yêu thích</div>
+                    </div>
+                </div>
+                <!-- Sản phẩm 5 -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-card p-3">
+                        <span class="installment-badge">Trả góp 0%</span>
+                        <span class="product-badge">Giảm 14%</span>
+                        <img src="https://cdn.tgdd.vn/Products/Images/42/329149/iphone-16-pro-max-thumb-600x600.jpg"
+                            class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                        <h6>iPhone 16 Pro Max 256GB | Chính hãng VN/A</h6>
+                        <div>
+                            <span class="price">30.090.000đ</span>
+                            <span class="old-price">34.990.000đ</span>
+                        </div>
+                        <small class="text-muted">Smember giảm đến 301.000đ</small>
+                        <div class="mt-2 text-primary">♡ Yêu thích</div>
+                    </div>
+                </div>
+                <!-- Sản phẩm 6 -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-card p-3">
+                        <span class="installment-badge">Trả góp 0%</span>
+                        <span class="product-badge">Giảm 14%</span>
+                        <img src="https://cdn.tgdd.vn/Products/Images/42/329149/iphone-16-pro-max-thumb-600x600.jpg"
+                            class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                        <h6>iPhone 16 Pro Max 256GB | Chính hãng VN/A</h6>
+                        <div>
+                            <span class="price">30.090.000đ</span>
+                            <span class="old-price">34.990.000đ</span>
+                        </div>
+                        <small class="text-muted">Smember giảm đến 301.000đ</small>
+                        <div class="mt-2 text-primary">♡ Yêu thích</div>
+                    </div>
+                </div>
+                <!-- Sản phẩm 7 -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-card p-3">
+                        <span class="installment-badge">Trả góp 0%</span>
+                        <span class="product-badge">Giảm 14%</span>
+                        <img src="https://cdn.tgdd.vn/Products/Images/42/329149/iphone-16-pro-max-thumb-600x600.jpg"
+                            class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                        <h6>iPhone 16 Pro Max 256GB | Chính hãng VN/A</h6>
+                        <div>
+                            <span class="price">30.090.000đ</span>
+                            <span class="old-price">34.990.000đ</span>
+                        </div>
+                        <small class="text-muted">Smember giảm đến 301.000đ</small>
+                        <div class="mt-2 text-primary">♡ Yêu thích</div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm 7 -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-card p-3">
+                        <span class="installment-badge">Trả góp 0%</span>
+                        <span class="product-badge">Giảm 14%</span>
+                        <img src="https://cdn.tgdd.vn/Products/Images/42/329149/iphone-16-pro-max-thumb-600x600.jpg"
+                            class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                        <h6>iPhone 16 Pro Max 256GB | Chính hãng VN/A</h6>
+                        <div>
+                            <span class="price">30.090.000đ</span>
+                            <span class="old-price">34.990.000đ</span>
+                        </div>
+                        <small class="text-muted">Smember giảm đến 301.000đ</small>
+                        <div class="mt-2 text-primary">♡ Yêu thích</div>
+                    </div>
+                </div>
+
+                <hr style="border: #888 solid 2px;">
+                <!-- Tai Nghe -->
+                <div class="container py-4" id="tainghe">
+                    <h3 class="mb-4">🎧 Tai Nghe</h3>
+                    <div class="row g-3">
+
+                        <!-- Sản phẩm 1 -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-card p-3">
+                                <span class="installment-badge">Trả góp 0%</span>
+                                <img src="img/airpods-pro-2021.png" class="img-fluid mb-3" alt="iPhone 17 Pro Max">
+                                <span class="tag">Hàng đặt trước</span>
+                                <h6>Tai nghe Bluetooth Apple AirPods Pro 2021 Magsafe | Chính hãng Apple Việt Nam</h6>
+                                <div class="price">4.000.000đ</div>
+                                <small class="text-muted">Smember giảm đến 380.000đ</small>
+                                <div class="mt-2 text-primmary">♡ Yêu thích</div>
+                            </div>
+                        </div>
+
+                        <!-- Sản phẩm 2 -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-card p-3">
+                                <span class="installment-badge">Trả góp 0%</span>
+                                <span class="product-badge">Giảm 14%</span>
+                                <img src="img/buds-4.png" class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                                <h6>Tai nghe Bluetooth True Wireless Redmi Buds 4 </h6>
+                                <div>
+                                    <span class="price">800.000đ</span>
+                                    <span class="old-price">500.000đ</span>
+                                </div>
+                                <small class="text-muted">Smember giảm đến 301.000đ</small>
+                                <div class="mt-2 text-primary">♡ Yêu thích</div>
+                            </div>
+                        </div>
+                        <!-- Sản phẩm 3  -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-card p-3">
+                                <span class="installment-badge">Trả góp 0%</span>
+                                <span class="product-badge">Giảm 14%</span>
+                                <img src="img/buds-5-ac.png" class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                                <h6>Tai nghe Bluetooth True Wireless Xiaomi Redmi Buds 5 Active</h6>
+                                <div>
+                                    <span class="price">3.090.000đ</span>
+                                    <span class="old-price">1.990.000đ</span>
+                                </div>
+                                <small class="text-muted">Smember giảm đến 301.000đ</small>
+                                <div class="mt-2 text-primary">♡ Yêu thích</div>
+                            </div>
+                        </div>
+                        <!-- Sản phẩm 4 -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-card p-3">
+                                <span class="installment-badge">Trả góp 0%</span>
+                                <img src="img/buds-5.png" class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                                <h6>Tai nghe Bluetooth True Wireless Xiaomi Redmi Buds 5</h6>
+                                <div>
+                                    <span class="price">2.050.000đ</span>
+
+                                </div>
+                                <small class="text-muted">Smember giảm đến 301.000đ</small>
+                                <div class="mt-2 text-primary">♡ Yêu thích</div>
+                            </div>
+                        </div>
+                        <!-- Sản phẩm 5 -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-card p-3">
+                                <span class="installment-badge">Trả góp 0%</span>
+                                <span class="product-badge">Giảm 30%</span>
+                                <img src="img/buds-5pro.png" class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                                <h6>Tai nghe Bluetooth True Wireless Xiaomi Redmi Buds 5 Pro</h6>
+                                <div>
+                                    <span class="price">3.090.000đ</span>
+                                    <span class="old-price">2.990.000đ</span>
+                                </div>
+                                <small class="text-muted">Smember giảm đến 301.000đ</small>
+                                <div class="mt-2 text-primary">♡ Yêu thích</div>
+                            </div>
+                        </div>
+                        <!-- Sản phẩm 6 -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-card p-3">
+                                <span class="installment-badge">Trả góp 0%</span>
+
+                                <img src="img/rd-buds-6-active.png" class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                                <h6>Tai nghe Bluetooth True Wireless Xiaomi Redmi Buds 6 Active</h6>
+                                <div>
+                                    <span class="price">5.000.000đ</span>
+
+                                </div>
+                                <small class="text-muted">Smember giảm đến 301.000đ</small>
+                                <div class="mt-2 text-primary">♡ Yêu thích</div>
+                            </div>
+                        </div>
+                        <!-- Sản phẩm 7 -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-card p-3">
+                                <span class="installment-badge">Trả góp 0%</span>
+
+                                <img src="img/red-buds-6-lite.png" class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                                <h6>Tai nghe Bluetooth True Wireless Xiaomi Redmi Buds 6 Lite</h6>
+                                <div>
+                                    <span class="price">1.000.000đ</span>
+
+                                </div>
+                                <small class="text-muted">Smember giảm đến 301.000đ</small>
+                                <div class="mt-2 text-primary">♡ Yêu thích</div>
+                            </div>
+                        </div>
+                        <!-- Sản phẩm 7 -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-card p-3">
+                                <span class="installment-badge">Trả góp 0%</span>
+
+                                <img src="img/redmi-buds-6-play.png" class="img-fluid mb-3" alt="iPhone 16 Pro Max">
+                                <h6>Tai nghe Bluetooth True Wireless Xiaomi Redmi Buds 6 Play</h6>
+                                <div>
+                                    <span class="price">950.000đ</span>
+
+                                </div>
+                                <small class="text-muted">Smember giảm đến 301.000đ</small>
+                                <div class="mt-2 text-primary">♡ Yêu thích</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+    </section>
+
+    <!--footer    -->
+    <footer class="bg-dark text-white py-4 mt-5 w-100">
+        <div class="container-fluid text-center">
+            <h5 class="mb-2">ST MOBILE - Shop Điện Thoại Uy Tín</h5>
+            <p class="mb-1">Địa chỉ: 123 Đường Số 1, Quận 1, TP.HCM</p>
+            <p class="mb-1">Hotline:
+                <a href="tel:0123456789" class="text-white text-decoration-underline">0123 456 789</a>
+            </p>
+            <p class="mb-3">Email:
+                <a href="mailto:info@stmobile.vn" class="text-white text-decoration-underline">info@stmobile.vn</a>
+            </p>
+            <div class="mb-3">
+                <a href="https://www.facebook.com/hosithinh2202/?locale=vi_VN" class="text-white me-3">
+                    <i class="bi bi-facebook"></i> Facebook
+                </a>
+                <a href="#" class="text-white me-3">
+                    <i class="bi bi-instagram"></i> Instagram
+                </a>
+                <a href="#" class="text-white">
+                    <i class="bi bi-youtube"></i> Youtube
+                </a>
+            </div>
+            <div class="fw-semibold">© 2025 ST MOBILE. All rights reserved.</div>
+        </div>
+    </footer>
+
 </body>
+<!-- Modal Liên hệ -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="contactModalLabel">Liên hệ với ST-Mobile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="contactName" class="form-label">Họ và tên</label>
+                        <input type="text" class="form-control" id="contactName" placeholder="Nhập họ tên"
+                            pattern="[A-Za-zÀ-ỹ\s]+" required
+                            oninput="this.value=this.value.replace(/[^A-Za-zÀ-ỹ\s]/g,'');">
+                        <div class="form-text text-danger" id="nameError" style="display:none;">Chỉ nhập chữ cái, không
+                            nhập số hoặc ký tự đặc biệt.</div>
+                        <script>
+                            // Validate tên chỉ nhập chữ
+                            document.getElementById('contactName').addEventListener('input', function () {
+                                const val = this.value;
+                                const error = document.getElementById('nameError');
+                                if (/^[A-Za-zÀ-ỹ\s]+$/.test(val) || val === '') {
+                                    error.style.display = 'none';
+                                    this.setCustomValidity('');
+                                } else {
+                                    error.style.display = 'block';
+                                    this.setCustomValidity('Chỉ nhập chữ cái, không nhập số hoặc ký tự đặc biệt.');
+                                }
+                            });
+                        </script>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactPhone" class="form-label">Số điện thoại</label>
+                        <input type="tel" class="form-control" id="contactPhone" placeholder="Nhập số điện thoại"
+                            pattern="0[0-9]{9}" maxlength="10" minlength="10" required
+                            oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                        <div class="form-text text-danger" id="phoneError" style="display:none;">Số điện thoại phải gồm
+                            10 số và bắt đầu bằng số 0.</div>
+                    </div>
+                    <script>
+                        // Validate số điện thoại khi người dùng nhập
+                        document.getElementById('contactPhone').addEventListener('input', function () {
+                            const val = this.value;
+                            const error = document.getElementById('phoneError');
+                            if (/^0\d{9}$/.test(val)) {
+                                error.style.display = 'none';
+                                this.setCustomValidity('');
+                            } else {
+                                error.style.display = val.length > 0 ? 'block' : 'none';
+                                this.setCustomValidity('Số điện thoại phải gồm 10 số và bắt đầu bằng số 0.');
+                            }
+                        });
+                    </script>
+                    <div class="mb-3">
+                        <label for="contactMessage" class="form-label">Nội dung liên hệ</label>
+                        <textarea class="form-control" id="contactMessage" rows="3"
+                            placeholder="Nhập nội dung"></textarea>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="https://www.facebook.com/hosithinh2202/?locale=vi_VN" target="_blank"
+                        class="btn btn-primary w-50 me-2"><i class="bi bi-facebook"></i> Liên hệ Facebook</a>
+                    <a href="https://zalo.me/0123456789" target="_blank" class="btn btn-info w-50 ms-2"><i
+                            class="bi bi-chat-dots"></i> Liên hệ Zalo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </html>
